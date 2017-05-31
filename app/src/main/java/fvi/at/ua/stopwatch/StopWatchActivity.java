@@ -11,6 +11,9 @@ public class StopWatchActivity extends Activity {
     private int seconds = 0;
     private boolean running = false;
     private boolean wasRunning;
+    private  static final String SECONDS_KEY = "seconds";
+    private  static final String RUNNING_KEY = "running";
+    private  static final String WAS_RUNNING_KEY = "wasRunning";
 
 
     @Override
@@ -18,22 +21,22 @@ public class StopWatchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_watch);
 
-        if (savedInstanceState != null) {
-            seconds = savedInstanceState.getInt("seconds");
-            running = savedInstanceState.getBoolean("running");
-            wasRunning = savedInstanceState.getBoolean("wasRunning");
-            Log.i("BUNDLE","!null");
+       if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt(SECONDS_KEY);
+            running = savedInstanceState.getBoolean(RUNNING_KEY);
+            wasRunning = savedInstanceState.getBoolean(WAS_RUNNING_KEY);
+            Log.i("BUNDLE","!null" +" seconds " + seconds + " RUN " + running + " wasRUN " + wasRunning );
         } else {
             Log.i("BUNDLE","null");
         }
         runTimer();
     }
-    @Override
+     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt("second", seconds);
-        savedInstanceState.putBoolean("running", running);
-        savedInstanceState.putBoolean("wasRunning", wasRunning);
-        Log.i("BUNDLE","saved "+ seconds+" running " +running );
+        savedInstanceState.putInt(SECONDS_KEY, seconds);
+        savedInstanceState.putBoolean(RUNNING_KEY, running);
+        savedInstanceState.putBoolean(WAS_RUNNING_KEY, wasRunning);
+        Log.i("BUNDLE","saved seconds "+ seconds+" running " +running + " wasRunning "  + wasRunning );
     }
     @Override
     protected void onPause() {
@@ -61,6 +64,7 @@ public class StopWatchActivity extends Activity {
     public void onClickReset(View view) {
         running = false;
         seconds = 0;
+        running = true;
     }
 
     private void runTimer() {
@@ -80,5 +84,10 @@ public class StopWatchActivity extends Activity {
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
