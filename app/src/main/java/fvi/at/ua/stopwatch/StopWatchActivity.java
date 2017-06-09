@@ -14,12 +14,14 @@ public class StopWatchActivity extends Activity {
     private  static final String SECONDS_KEY = "seconds";
     private  static final String RUNNING_KEY = "running";
     private  static final String WAS_RUNNING_KEY = "wasRunning";
+    private TextView time_tv;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_watch);
+        init();
 
        if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt(SECONDS_KEY);
@@ -38,6 +40,11 @@ public class StopWatchActivity extends Activity {
         savedInstanceState.putBoolean(WAS_RUNNING_KEY, wasRunning);
         Log.i("BUNDLE","saved seconds "+ seconds+" running " +running + " wasRunning "  + wasRunning );
     }
+
+    public void init(){
+        time_tv = (TextView) findViewById(R.id.time_view);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -58,7 +65,9 @@ public class StopWatchActivity extends Activity {
     }
 
     public void onClickStop(View view) {
+
         running = false;
+
     }
 
     public void onClickReset(View view) {
@@ -68,7 +77,7 @@ public class StopWatchActivity extends Activity {
     }
 
     private void runTimer() {
-        final TextView time_view = (TextView) findViewById(R.id.time_view);
+
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -77,7 +86,7 @@ public class StopWatchActivity extends Activity {
                 int minute = (seconds % 3600) / 60;
                 int sec = seconds % 60;
                 String time = String.format("%d:%02d:%02d", hour, minute, sec);
-                time_view.setText(time);
+                time_tv.setText(time);
                 if (running) {
                     seconds++;
                 }
